@@ -141,6 +141,8 @@ app.get("/dream/:id", async (req, res) => {
   }
 });
 
-app.listen(5001, () => {
-  console.log("server has started on port 5001");
+//Start Server
+app.set('port', (process.env.PORT || 5001));
+app.listen(app.get('port'), () => {
+  console.log("server has started on port", app.get('port'));
 });
