@@ -1,6 +1,6 @@
 const Pool = require("pg").Pool;
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+const dotenv = require('dotenv').config()
 
 const pool = new Pool({
   user: process.env.DATABASE_USER,

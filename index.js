@@ -4,6 +4,7 @@ const cors = require("cors");
 const pool = require("./db");
 const axios = require("axios");
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+const dotenv = require('dotenv').config();
 
 //middleware
 app.use(cors());
