@@ -22,8 +22,9 @@ app.use(expressCspHeader({
 // create a dream
 app.post("/dream", async (req, res) => {
   try {
-    const { user_id, role, gender, content } = req.body;
+    const { user_id, role, content } = req.body;
     const dream_id = uuidv4();
+    const gender = "";
     const endpoint = process.env.AWS_APIGATEWAY_LAMBDA_CHATGPT_ENDPOINT;
     const api_key = process.env.AWS_APIGATEWAY_LAMBDA_CHATGPT_API_KEY;
 
@@ -32,7 +33,6 @@ app.post("/dream", async (req, res) => {
     const lambda_res = await axios.post(endpoint, {
                         user_id: user_id,
                         role: role,
-                        gender: gender,
                         content: content
                       },
                       {
@@ -50,6 +50,8 @@ app.post("/dream", async (req, res) => {
       "INSERT INTO dreams (user_id, dream_id, role, gender, content, content_eng, dream) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",
       [user_id, dream_id, role, gender, lambda_res['data']['body']['content'], lambda_res['data']['body']['content_eng'], content]
     );
+
+    console.log(lambda_res['data']);
                       
     res.json(lambda_res['data']);
   } catch (err) {
