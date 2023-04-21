@@ -4,8 +4,11 @@ const cors = require("cors");
 const pool = require("./db");
 const axios = require("axios");
 const { v4: uuidv4 } = require('uuid');
+const { customAlphabet } = require('nanoid');
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 const dotenv = require('dotenv').config();
+
+const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 14);
 
 //middleware
 app.use(cors());
@@ -23,7 +26,7 @@ app.use(expressCspHeader({
 app.post("/dream", async (req, res) => {
   try {
     const { user_id, role, content } = req.body;
-    const dream_id = uuidv4();
+    const dream_id = nanoid(14);
     const gender = "";
     const endpoint = process.env.AWS_APIGATEWAY_LAMBDA_CHATGPT_ENDPOINT;
     const api_key = process.env.AWS_APIGATEWAY_LAMBDA_CHATGPT_API_KEY;
